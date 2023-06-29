@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- Adding Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      let root = ReactDOM.createRoot(document.querySelector("#root"));
+      function randomNumber() {
+        const getRandomNumber = () => {
+          return Math.ceil(Math.random() * 6);
+        };
+
+        return (
+          <div
+            style={{
+              width: "60%",
+              margin: "2em auto",
+              background: "dodgerblue",
+              color: "white",
+              padding: "2em",
+              textAlign: "center",
+              fontSize: "1.5rem",
+            }}
+          >
+            here is the number:{" "}
+            <span
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                marginLeft: "25px",
+              }}
+            >
+              {getRandomNumber()}
+            </span>
+          </div>
+        );
+      }
+      root.render(randomNumber());
+    </script>
+  </body>
+</html>
