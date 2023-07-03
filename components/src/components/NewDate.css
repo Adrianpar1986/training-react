@@ -1,0 +1,12 @@
+div {
+  font-size: 1.5rem;
+  color: #fafafa;
+  margin-bottom: 1.2em;
+}
+
+span {
+  padding: 1em;
+  background-color: dodgerblue;
+  border: 1px solid #fafafa;
+  border-radius: 0.3rem;
+}
