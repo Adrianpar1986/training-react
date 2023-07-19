@@ -1,45 +1,50 @@
 import { useState } from "react";
 import "./Movies.css";
-import movies from "../db/movies.json";
+import movies from "../../db/movies.json";
+import MoviesWrapper from "./MoviesWrapper";
+import MoviesMain from "./MoviesMain";
+import Card from "./Card";
 
 function Movies() {
   const [moviesList, setMoviesList] = useState(movies);
+  const [fadeIn, setFadeIn] = useState(true);
+  const changeVisibility = (toShow) => {
+    setFadeIn(false);
+    setTimeout(() => {
+      setFadeIn(true);
+      setMoviesList(toShow);
+    }, 500);
+  };
 
   const filterComedy = () => {
     let comedyMovies = movies.filter((movie) => {
       return movie.genre.includes("Comedy");
     });
-    setMoviesList(comedyMovies);
+    changeVisibility(comedyMovies);
   };
   const filterDrama = () => {
     let dramaMovies = movies.filter((movie) => {
       return movie.genre.includes("Drama");
     });
-    setMoviesList(dramaMovies);
+    changeVisibility(dramaMovies);
+  };
+  const noFilter = () => {
+    changeVisibility(movies);
   };
 
-  const noFilter = ()=>{
-    setMoviesList(movies);
-
-  }
   return (
-    <div className="main">
-       <div className="actions">
+    <MoviesMain>
+      <div className="actions">
         <button onClick={noFilter}>All</button>
         <button onClick={filterComedy}>Comedy</button>
         <button onClick={filterDrama}>Drama</button>
       </div>
-      <div className="movies-wrapper">
+      <MoviesWrapper>
         {moviesList.map((movie) => (
-          <div key={movie.id}className="card">
-            <h2>{movie.title}</h2>
-            <h3>{movie.genre}</h3>
-          </div>
+          <Card key={movie.id} movie={movie} fadeIn={fadeIn} />
         ))}
-      </div>
-     
-    </div>
+      </MoviesWrapper>
+    </MoviesMain>
   );
 }
-
 export default Movies;
