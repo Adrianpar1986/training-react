@@ -1,0 +1,53 @@
+.item-icon {
+  flex-basis: 15%;
+}
+
+/*Icon Stacks*/
+
+.incoming {
+  color: #3772a9;
+}
+
+.light-incoming {
+  color: #eaf1f8;
+}
+
+.transfer {
+  color: #6465e8;
+}
+
+.light-transfer {
+  color: #eeeffc;
+}
+
+.cart {
+  color: #48a6e2;
+}
+
+.light-cart {
+  color: #ecf5fe;
+}
+
+.bizum {
+  color: #33d3d8;
+}
+
+.light-bizum {
+  color: #eeeffc;
+}
+
+.bill {
+  color: #d977eb;
+}
+
+.light-bill {
+  color: #f8f2fd;
+}
+
+.electricity {
+  color: #fac904;
+}
+
+.light-electricity {
+  color: #edfaf8;
+}
