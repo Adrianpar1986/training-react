@@ -1,116 +1,76 @@
-import "./Expenses.css";
+import {
+  faChampagneGlasses,
+  faSquare,
+  faBurger,
+  faGlassWater,
+  faArrowDownLong,
+  faArrowUpLong,
+  faBriefcase,
+  faCommentDollar,
+  faSackDollar,
+  faCar,
+  faBoltLightning,
+} from "@fortawesome/free-solid-svg-icons";
 import ItemIcon from "./Items/ItemIcon";
 import ItemInfo from "./Items/ItemInfo";
 import ItemCost from "./Items/ItemCost";
-import { itemsList } from "../itemsDB/items";
+import { itemsList, classes } from "../itemsDB/items";
 import ItemContainer from "./wrappers/ItemContainer";
 import Wrapper from "./wrappers/Wrapper";
+import { useState, useEffect } from "react";
 
-function Expenses() {
+function Expenses(props) {
+  const [expenses, setNewExpenses] = useState(itemsList);
+
+  // let expense = {};
+
+  const getIcons = (category) => {
+    switch (category) {
+      case "incoming":
+        return [faSquare, faBriefcase];
+      case "transfer":
+        return [faSquare, faSackDollar];
+      case "car":
+        return [faSquare, faCar];
+      case "bizum":
+        return [faSquare, faCommentDollar];
+      case "bill":
+        return [faSquare, faChampagneGlasses];
+      case "electricity":
+        return [faSquare, faBoltLightning];
+    }
+  };
+
+  useEffect(() => {
+    if (Object.keys(props.onNewExpense).length > 0) {
+      const expense = {
+        icons: getIcons(props.onNewExpense.category),
+        classes: classes[props.onNewExpense.category],
+        data: {
+          title: props.onNewExpense.title,
+          date: new Date(Date.now()).toLocaleDateString(),
+        },
+        money: {
+          amount: props.onNewExpense.amount,
+          income: props.onNewExpense.isIncome,
+        },
+      };
+      setNewExpenses([...expenses, expense]);
+    }
+  }, [props.onNewExpense]);
+
   return (
-    <Wrapper>
-      {/* item */}
-      <ItemContainer>
-        <ItemIcon icons={itemsList[0].icons} />
-        <ItemInfo data={itemsList[0].data} />
-        <ItemCost money={itemsList[0].money} />
-      </ItemContainer>
-
-      {/* item */}
-      {/* <div className="item-container">
-        <div className="item-icon fa-4x flex-20 flex-center">
-          <span className="fa-layers fa-fw fa-xl">
-            <FontAwesomeIcon icon={faSquare} className="light-incoming" />
-            <FontAwesomeIcon
-              icon={faBriefcase}
-              inverse
-              transform="shrink-8"
-              className="incoming"
-            />
-          </span>
-        </div>
-        <div className="item-info flex-60">
-          <h2>Freelancing Work</h2>
-          <small className="expense-date">31/08/21</small>
-        </div>
-        <div className="item-cost flex-20 income fa-3x flex-center">
-          <span>&#43; $260</span>
-          <FontAwesomeIcon icon={faArrowUpLong} className="m-left-20" />
-        </div>
-      </div> */}
-      {/* item */}
-      {/* <div className="item-container">
-        <div className="item-icon fa-4x flex-20 flex-center">
-          <span className="fa-layers fa-fw fa-xl">
-            <FontAwesomeIcon icon={faSquare} className="light-bizum" />
-            <FontAwesomeIcon
-              icon={faCommentDollar}
-              inverse
-              transform="shrink-8"
-              className="bizum"
-            />
-          </span>
-        </div>
-        <div className="item-info flex-60">
-          <h2>Send Bizum To a Friend</h2>
-          <small className="expense-date">01/09/21</small>
-        </div>
-        <div className="item-cost flex-20 expense fa-3x flex-center">
-          <span>&#8722; $50</span>
-          <FontAwesomeIcon icon={faArrowDownLong} className="m-left-20" />
-        </div>
-      </div> */}
-      {/* item */}
-      {/* <div className="item-container">
-        <div className="item-icon fa-4x flex-20 flex-center">
-          <span className="fa-layers fa-fw fa-xl">
-            <FontAwesomeIcon icon={faSquare} className="light-incoming" />
-            <FontAwesomeIcon
-              icon={faSackDollar}
-              inverse
-              transform="shrink-8"
-              className="incoming"
-            />
-          </span>
-        </div>
-        <div className="item-info flex-60">
-          <h2>Payroll</h2>
-          <small className="expense-date">01/09/21</small>
-        </div>
-        <div className="item-cost flex-20 income fa-3x flex-center">
-          <span>&#43; $2500</span>
-          <FontAwesomeIcon icon={faArrowUpLong} className="m-left-20" />
-        </div>
-      </div> */}
-      {/* item */}
-      {/* <div className="item-container">
-        <div className="item-icon fa-4x flex-20 flex-center">
-          <span className="fa-layers fa-fw fa-xl">
-            <FontAwesomeIcon icon={faSquare} className="light-electricity" />
-            <FontAwesomeIcon
-              icon={faGlassWater}
-              inverse
-              transform="shrink-9 right-1"
-              className="bill"
-            />
-            <FontAwesomeIcon
-              icon={faBurger}
-              inverse
-              transform="shrink-10 down-1 left-1"
-              className="electricity"
-            />
-          </span>
-        </div>
-        <div className="item-info flex-60">
-          <h2>Burger</h2>
-          <small className="expense-date">21/08/21</small>
-        </div>
-        <div className="item-cost flex-20 income fa-3x flex-center">
-          <span>&#43; $10</span>
-          <FontAwesomeIcon icon={faArrowUpLong} className="m-left-20" />
-        </div>
-      </div> */}
-    </Wrapper>
+    <Wrapper
+      content={expenses.map((item, index) => {
+        return (
+          <ItemContainer key={index}>
+            <ItemIcon icons={item.icons} classes={item.classes} />
+            <ItemInfo data={item.data} />
+            <ItemCost money={item.money} />
+          </ItemContainer>
+        );
+      })}
+    />
   );
 }
 
