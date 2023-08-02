@@ -18,6 +18,7 @@ import { itemsList, classes } from "../itemsDB/items";
 import ItemContainer from "./wrappers/ItemContainer";
 import Wrapper from "./wrappers/Wrapper";
 import { useState, useEffect } from "react";
+import ExpensesFilter from "./ExpensesFilter";
 
 function Expenses(props) {
   const [expenses, setNewExpenses] = useState(itemsList);
@@ -60,6 +61,8 @@ function Expenses(props) {
   }, [props.onNewExpense]);
 
   return (
+    <div>
+      <ExpensesFilter months={expenses}/>
     <Wrapper
       content={expenses.map((item, index) => {
         return (
@@ -71,6 +74,7 @@ function Expenses(props) {
         );
       })}
     />
+    </div>
   );
 }
 
