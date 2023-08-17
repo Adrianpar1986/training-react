@@ -1,10 +1,6 @@
 import {
   faChampagneGlasses,
   faSquare,
-  faBurger,
-  faGlassWater,
-  faArrowDownLong,
-  faArrowUpLong,
   faBriefcase,
   faCommentDollar,
   faSackDollar,
@@ -19,16 +15,22 @@ import ItemContainer from "./wrappers/ItemContainer";
 import Wrapper from "./wrappers/Wrapper";
 import { useState, useEffect } from "react";
 import ExpensesFilter from "./ExpensesFilter";
+import { expensesStats } from "../utils/expensesStats";
+import { monthToString } from "../utils/monthToString";
+import InfoAlert from "./alerts/InfoAlert";
 
 function Expenses(props) {
+  const [filter, setFilter] = useState(
+    monthToString(new Date().toLocaleDateString())
+  );
   const [expenses, setNewExpenses] = useState(itemsList);
-
-  // let expense = {};
+  const filteredMonth = (month) => {
+    setFilter(month);
+  };
+  let stats = [0, 0];
 
   const getIcons = (category) => {
     switch (category) {
-      case "incoming":
-        return [faSquare, faBriefcase];
       case "transfer":
         return [faSquare, faSackDollar];
       case "car":
@@ -39,8 +41,11 @@ function Expenses(props) {
         return [faSquare, faChampagneGlasses];
       case "electricity":
         return [faSquare, faBoltLightning];
+      default:
+        return [faSquare, faBriefcase];
     }
   };
+  let filteredMonths = [];
 
   useEffect(() => {
     if (Object.keys(props.onNewExpense).length > 0) {
@@ -49,7 +54,7 @@ function Expenses(props) {
         classes: classes[props.onNewExpense.category],
         data: {
           title: props.onNewExpense.title,
-          date: new Date(Date.now()).toLocaleDateString(),
+          date: new Date(props.onNewExpense.date).toLocaleDateString(),
         },
         money: {
           amount: props.onNewExpense.amount,
@@ -60,21 +65,41 @@ function Expenses(props) {
     }
   }, [props.onNewExpense]);
 
+  if (filter !== "") {
+    filteredMonths = expenses.filter(
+      (item) => monthToString(item.data.date) === filter
+    );
+    if (filteredMonths.length > 0) {
+      stats = expensesStats(filteredMonths);
+    } else {
+      stats = [0, 0];
+    }
+  }
+
   return (
-    <div>
-      <ExpensesFilter months={expenses}/>
-    <Wrapper
-      content={expenses.map((item, index) => {
-        return (
-          <ItemContainer key={index}>
-            <ItemIcon icons={item.icons} classes={item.classes} />
-            <ItemInfo data={item.data} />
-            <ItemCost money={item.money} />
-          </ItemContainer>
-        );
-      })}
-    />
-    </div>
+    <>
+      <div>
+        <ExpensesFilter
+          onStats={stats}
+          onSelectMonth={filteredMonth}
+          month={expenses}
+        />
+        <Wrapper
+          content={
+            (filteredMonths.length > 0 &&
+              filteredMonths.map((item, index) => {
+                return (
+                  <ItemContainer key={index}>
+                    <ItemIcon icons={item.icons} classes={item.classes} />
+                    <ItemInfo data={item.data} />
+                    <ItemCost money={item.money} />
+                  </ItemContainer>
+                );
+              })) || <InfoAlert info="No expenses availables." />
+          }
+        />
+      </div>
+    </>
   );
 }
 

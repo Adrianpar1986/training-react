@@ -12,11 +12,13 @@ function App() {
   };
 
   return (
-    <div className="main">
-      <h1>Transactions</h1>
-      <InputExpenses onSaveNewExpense={saveNewExpense} />
-      <Expenses onNewExpense={addExpense} />
-    </div>
+    <>
+      <div className="main">
+        <h1>Transactions</h1>
+        <InputExpenses onSaveNewExpense={saveNewExpense} />
+        <Expenses onNewExpense={addExpense} />
+      </div>
+    </>
   );
 }
 

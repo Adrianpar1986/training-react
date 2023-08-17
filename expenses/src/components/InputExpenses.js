@@ -16,6 +16,7 @@ const InputExpenses = (props) => {
     amount: 0,
     category: "incoming",
     isIncome: false,
+    date: "",
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ const InputExpenses = (props) => {
       amount: 0,
       category: "incoming",
       isIncome: false,
+      date: ""
     });
   };
 
@@ -41,82 +43,98 @@ const InputExpenses = (props) => {
   };
 
   return (
-    <Wrapper
-      content={
-        <form className="new-expense" onSubmit={handleSubmit}>
-          <ItemIcon
-            onClick={handleVisible}
-            icons={[faCircle, faPlus]}
-            classes={classes.insurance}
-            size={"fa-2x"}
-          />
-          <h2>Input Expense</h2>
-          {/*en funcion del valor de la variable de estado, añade o quita la clase hidden*/}
-          <div className={`form-container ${!visible && "hidden"}`}>
-            <label htmlFOR="title">
-              <h3>Title</h3>
-            </label>
-            <input
-              onChange={handleInputChange}
-              value={expense.title}
-              type="text"
-              name="title"
-              id="title"
-            ></input>
-          </div>
-          <div className={`form-container ${!visible && "hidden"}`}>
-            <label htmlFOR="amount">
-              <h3>Amount</h3>
-            </label>
-            <input
-              onChange={handleInputChange}
-              value={expense.amount}
-              type="number"
-              name="amount"
-              id="amount"
-              max={10000}
-              min={1}
-              step={0.1}
-            ></input>
-          </div>
-          <div className={`form-container ${!visible && "hidden"}`}>
-            <label htmlFor="category">
-              <h3>Category</h3>
-            </label>
-            <select
-              name="category"
-              onChange={handleInputChange}
-              value={expense.category}
-            >
-              <option value="incoming">incoming</option>
-              <option value="transfer">transfer</option>
-              <option value="car">car</option>
-              <option value="bizum">bizum</option>
-              <option value="bill">bill</option>
-              <option value="electricity">electricity</option>
-            </select>
-          </div>
-          <div
-            className={`form-container income-container ${
-              !visible && "hidden"
-            }`}
-          >
-            <label htmlFor="isIncome">
-              <h3>Is Income</h3>
-            </label>
-            <input
-              type="checkbox"
-              id="isIncome"
-              name="isIncome"
-              onChange={handleInputChange}
-              checked={expense.isIncome}
+    <>
+      <Wrapper
+        content={
+          <form className="new-expense" onSubmit={handleSubmit}>
+            <ItemIcon
+              onClick={handleVisible}
+              icons={[faCircle, faPlus]}
+              classes={classes.insurance}
+              size={"fa-2x"}
             />
-            <span className="checkmark" aria-hidden="true"></span>
-          </div>
-          <button className={`${!visible && "hidden"}`}>Add Record</button>
-        </form>
-      }
-    />
+            <h2>Input Expense</h2>
+            {/*en funcion del valor de la variable de estado, añade o quita la clase hidden*/}
+            <div className={`form-container ${!visible && "hidden"}`}>
+              <label for="title">
+                <h3>Title</h3>
+              </label>
+              <input
+                onChange={handleInputChange}
+                value={expense.title}
+                type="text"
+                name="title"
+                id="title"
+              ></input>
+            </div>
+            <div className={`form-container ${!visible && "hidden"}`}>
+              <label for="amount">
+                <h3>Amount</h3>
+              </label>
+              <input
+                onChange={handleInputChange}
+                value={expense.amount}
+                type="number"
+                name="amount"
+                id="amount"
+                max={10000}
+                min={1}
+                step={0.1}
+              ></input>
+            </div>
+            <div className={`form-container ${!visible && "hidden"}`}>
+              <label for="category">
+                <h3>Category</h3>
+              </label>
+              <select
+                name="category"
+                onChange={handleInputChange}
+                value={expense.category}
+              >
+                <option value="incoming">incoming</option>
+                <option value="transfer">transfer</option>
+                <option value="car">car</option>
+                <option value="bizum">bizum</option>
+                <option value="bill">bill</option>
+                <option value="electricity">electricity</option>
+              </select>
+            </div>
+            <div
+              className={`form-container income-container ${
+                !visible && "hidden"
+              }`}
+            >
+              <label for="isIncome">
+                <h3>Is Income</h3>
+              </label>
+              <input
+                type="checkbox"
+                id="isIncome"
+                name="isIncome"
+                onChange={handleInputChange}
+                checked={expense.isIncome}
+              />
+              <span className="checkmark" aria-hidden="true"></span>
+            </div>
+            <div className={`form-container ${!visible && "hidden"}`}>
+              <label for="date">
+                <h3>Date</h3>
+              </label>
+              <input
+                onChange={handleInputChange}
+                value={expense.date}
+                type="text"
+                name="date"
+                id="date"
+                placeholder="Example: 2023-08-05"
+              ></input>
+            </div>
+            <div className={`form-container ${!visible && "hidden"}`}></div>
+            <button className={`${!visible && "hidden"}`}>Add Record</button>
+          </form>
+        }
+      />
+    </>
   );
 };
 

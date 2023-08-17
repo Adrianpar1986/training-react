@@ -1,11 +1,13 @@
-export const expensesStats = (itemsList) => {
+export const expensesStats = (itemList) => {
+  // console.log(itemList);
+  
   let incomes = 0,
     expenses = 0,
     total = 0;
-  if (itemsList.length === 0) {
+  if (itemList.length === 0) {
     return [0, 0];
   }
-  itemsList.forEach((element) => {
+  itemList.forEach((element) => {
     if (element.money.income) {
       incomes += element.money.amount;
     } else {
